@@ -1,0 +1,35 @@
+insert
+    $ea_light isa EnvironmentalAttribute, has attribute-name "light";
+    $qa_energy isa QualityAttribute, has attribute-name "energy";
+    $qa_accuracy isa QualityAttribute, has attribute-name "accuracy";
+        
+    $a_navigate isa Action, has action-name "navigate";
+    $f_localization isa Function, has function-name "localization";
+    
+    (action:$a_navigate, required-function:$f_localization) isa functional-requirement;
+    
+    ## Components
+    $c_lidar isa Component, has component-name "lidar";
+    $c_camera isa Component, has component-name "camera";
+    $c_kinect isa Component, has component-name "kinect";
+    
+    $c_amcl isa Component, has component-name "amcl";
+    $c_mrpt isa Component, has component-name "mrpt";
+    $c_aruco isa Component, has component-name "aruco";
+    
+    $c_lamp isa Component, has component-name "lamp";
+    
+    ## Function designs
+    $fd_lidar_amcl (function: $f_localization, required-component: $c_lidar, required-component: $c_amcl) isa function-design, has function-design-name "fd_lidar_amcl";
+    $fd_camera_aruco (function: $f_localization, required-component: $c_camera, required-component: $c_aruco) isa function-design, has function-design-name "fd_camera_aruco";
+    
+    ## Constraints
+    (constraint: $ea_light, constrained: $fd_camera_aruco) isa constrainment, has attribute-value 0.9, has constrainment-operator ">=";
+    
+    ## Estimations
+    (causer: $fd_lidar_amcl, affected: $qa_energy) isa estimation, has estimation-value 1.0, has estimation-type "positive";
+    (causer: $fd_lidar_amcl, affected: $qa_accuracy) isa estimation, has estimation-value 2.0, has estimation-type "absolute";
+    
+    (causer: $fd_camera_aruco, affected: $qa_energy) isa estimation, has estimation-value 2.0, has estimation-type "positive";
+    (causer: $fd_camera_aruco, affected: $qa_accuracy) isa estimation, has estimation-value 1.0, has estimation-type "absolute";
+                
