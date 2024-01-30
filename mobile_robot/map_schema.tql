@@ -1,0 +1,14 @@
+define
+
+location-name sub attribute,
+    value string;
+distance sub attribute,
+    value double;
+
+location sub entity,
+    owns location-name @key,
+    owns distance,
+    plays connection:location;
+
+connection sub relation,
+    relates location;
