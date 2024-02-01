@@ -1,0 +1,5 @@
+match
+    $a_navigate isa Action, has action-name "navigate";
+    (action: $a_navigate, preference: $att) isa required-action;
+    $att has name $name;
+    get $name;

@@ -1,0 +1,6 @@
+match
+    $a_navigate isa Action, has action-name "navigate";
+    $qa_safety isa Attribute, has attribute-name "safety";
+
+insert
+    (action: $a_navigate, preference:$qa_safety) isa required-action, has start-time 2024-01-01T10:56:12.111;
