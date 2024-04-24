@@ -3,86 +3,82 @@ insert
     $qa_energy isa QualityAttribute, has attribute-name "energy";
     $qa_accuracy isa QualityAttribute, has attribute-name "accuracy";
     $qa_safety isa QualityAttribute, has attribute-name "safety";
-        
+
     $a_navigate isa Action, has action-name "navigate";
     $f_localization isa Function, has function-name "localization";
     $f_move isa Function, has function-name "move";
-    
+
     (action:$a_navigate, required-function:$f_localization) isa functional-requirement;
-    
+
     ## Components
     $c_lidar isa Component, has component-name "lidar";
     $c_kinect isa Component, has component-name "kinect";
     $c_camera isa Component, has component-name "camera";
-   
-    
+
+
     $c_amcl isa Component, has component-name "amcl";
     $c_mrpt isa Component, has component-name "mrpt";
     $c_aruco isa Component, has component-name "aruco";
-    
+
     $c_lamp isa Component, has component-name "lamp";
-    
+
     $c_move_base isa Component, has component-name "move_base";
-    
+
     ## Function designs
     $fd_lidar_amcl (function: $f_localization, required-component: $c_lidar, required-component: $c_amcl) isa function-design, has function-design-name "fd_lidar_amcl";
     $fd_kinect_amcl (function: $f_localization, required-component: $c_kinect, required-component: $c_amcl) isa function-design, has function-design-name "fd_kinect_amcl";
-   
+
     $fd_lidar_mrpt (function: $f_localization, required-component: $c_kinect, required-component: $c_mrpt) isa function-design, has function-design-name "fd_lidar_mrpt";
     $fd_kinect_mrpt (function: $f_localization, required-component: $c_kinect, required-component: $c_mrpt) isa function-design, has function-design-name "fd_kinect_mrpt";
-   
+
     $fd_camera_aruco (function: $f_localization, required-component: $c_camera, required-component: $c_aruco) isa function-design, has function-design-name "fd_camera_aruco";
     $fd_camera_aruco_lamp (function: $f_localization, required-component: $c_camera, required-component: $c_aruco, required-component: $c_lamp) isa function-design, has function-design-name "fd_camera_aruco_lamp";
-    
+
     ## Component parameters
     $cp_speed_safe isa ComponentParameter, has parameter-key "move_speed", has parameter-value "0.24", has parameter-type "double";
     $cp_speed_normal isa ComponentParameter, has parameter-key "move_speed", has parameter-value "0.35", has parameter-type "double";
     $cp_speed_high isa ComponentParameter, has parameter-key "move_speed", has parameter-value "0.68", has parameter-type "double";
-    
+
     ## Component configurations
     $cc_safe (component: $c_move_base, parameter: $cp_speed_safe) isa component-configuration, has component-configuration-name "safe speed";
     $cc_normal (component: $c_move_base, parameter: $cp_speed_normal) isa component-configuration, has component-configuration-name "normal speed";
     $cc_high (component: $c_move_base, parameter: $cp_speed_high) isa component-configuration, has component-configuration-name "high speed";
-    
+
     ## Constraints
-    (constraint: $ea_light, constrained: $fd_camera_aruco) isa constrainment, has attribute-value 0.9, has constrainment-operator ">=";
-    
+    (constraint: $ea_light, constrained: $fd_camera_aruco) isa constraint, has attribute-value 0.9, has constraint-operator ">=";
+
     ## Estimations
     (causer: $c_lidar, affected: $qa_energy) isa estimation, has estimation-value 0.5, has estimation-type "positive";
     (causer: $c_lidar, affected: $qa_accuracy) isa estimation, has estimation-value 0.25, has estimation-type "positive";
     (causer: $c_lidar, affected: $qa_safety) isa estimation, has estimation-value 0.25, has estimation-type "positive";
-    
+
     (causer: $c_kinect, affected: $qa_energy) isa estimation, has estimation-value 0.25, has estimation-type "positive";
     (causer: $c_kinect, affected: $qa_accuracy) isa estimation, has estimation-value 0.75, has estimation-type "positive";
     (causer: $c_kinect, affected: $qa_safety) isa estimation, has estimation-value 0.75, has estimation-type "positive";
-    
+
     (causer: $c_camera, affected: $qa_energy) isa estimation, has estimation-value 0.25, has estimation-type "positive";
     (causer: $c_camera, affected: $qa_accuracy) isa estimation, has estimation-value 0.5, has estimation-type "positive";
     (causer: $c_camera, affected: $qa_safety) isa estimation, has estimation-value 0.5, has estimation-type "positive";
-    
+
     (causer: $c_amcl, affected: $qa_energy) isa estimation, has estimation-value 0.25, has estimation-type "positive";
     (causer: $c_amcl, affected: $qa_accuracy) isa estimation, has estimation-value 1.0, has estimation-type "positive";
     (causer: $c_amcl, affected: $qa_safety) isa estimation, has estimation-value 1.0, has estimation-type "positive";
-    
+
     (causer: $c_mrpt, affected: $qa_energy) isa estimation, has estimation-value 0.5, has estimation-type "positive";
-    (causer: $c_mrpt, affected: $qa_accuracy) isa estimation, has estimation-value 0.75, has estimation-type "positive";  
-    (causer: $c_mrpt, affected: $qa_safety) isa estimation, has estimation-value 0.75, has estimation-type "positive";  
-    
-    (causer: $c_aruco, affected: $qa_energy) isa estimation, has estimation-value 0.75, has estimation-type "positive";    
+    (causer: $c_mrpt, affected: $qa_accuracy) isa estimation, has estimation-value 0.75, has estimation-type "positive";
+    (causer: $c_mrpt, affected: $qa_safety) isa estimation, has estimation-value 0.75, has estimation-type "positive";
+
+    (causer: $c_aruco, affected: $qa_energy) isa estimation, has estimation-value 0.75, has estimation-type "positive";
     (causer: $c_aruco, affected: $qa_accuracy) isa estimation, has estimation-value 0.75, has estimation-type "positive";
     (causer: $c_aruco, affected: $qa_safety) isa estimation, has estimation-value 0.75, has estimation-type "positive";
-    
-    (causer: $c_lamp, affected: $qa_energy) isa estimation, has estimation-value 1.0, has estimation-type "positive";      
-    
-    (causer: $cc_safe, affected: $qa_energy) isa estimation, has estimation-value 1.0, has estimation-type "positive";      
-    (causer: $cc_safe, affected: $qa_safety) isa estimation, has estimation-value 2.0, has estimation-type "positive";      
-    
-    (causer: $cc_normal, affected: $qa_energy) isa estimation, has estimation-value 2.0, has estimation-type "positive";      
-    (causer: $cc_normal, affected: $qa_safety) isa estimation, has estimation-value 1.5, has estimation-type "positive";      
-    
-    (causer: $cc_high, affected: $qa_energy) isa estimation, has estimation-value 3.0, has estimation-type "positive";      
-    (causer: $cc_high, affected: $qa_safety) isa estimation, has estimation-value 1.0, has estimation-type "positive";      
-    
-    
 
-                
+    (causer: $c_lamp, affected: $qa_energy) isa estimation, has estimation-value 1.0, has estimation-type "positive";
+
+    (causer: $cc_safe, affected: $qa_energy) isa estimation, has estimation-value 1.0, has estimation-type "positive";
+    (causer: $cc_safe, affected: $qa_safety) isa estimation, has estimation-value 2.0, has estimation-type "positive";
+
+    (causer: $cc_normal, affected: $qa_energy) isa estimation, has estimation-value 2.0, has estimation-type "positive";
+    (causer: $cc_normal, affected: $qa_safety) isa estimation, has estimation-value 1.5, has estimation-type "positive";
+
+    (causer: $cc_high, affected: $qa_energy) isa estimation, has estimation-value 3.0, has estimation-type "positive";
+    (causer: $cc_high, affected: $qa_safety) isa estimation, has estimation-value 1.0, has estimation-type "positive";

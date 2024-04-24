@@ -6,42 +6,42 @@ insert
     $a_analyze isa Action, has action-name "analyze";
     $a_analyze_in_situ isa Action, has action-name "analyze_in_situ";
     $a_land_fold isa Action, has action-name "land_fold";
-    
+
     ## Functions
     $f_control_motion isa Function, has function-name "control_motion";
     $f_generate_search_path isa Function, has function-name "generate_search_path";
     $f_generate_home_path isa Function, has function-name "generate_home_path";
-    
+
     $f_generate_pick_path isa Function, has function-name "generate_pick_path";
     $f_pick_sample isa Function, has function-name "pick_sample";
-    
+
     $f_generate_analyze_path isa Function, has function-name "generate_analyze_path";
     $f_analyze_sample_in_situ isa Function, has function-name "analyze_sample_in_situ";
-    
+
     $f_land isa Function, has function-name "land";
     $f_fold_gripper isa Function, has function-name "fold_gripper";
-    
+
     ## functional-requirements
     (action:$a_search, required-function:$f_generate_search_path, required-function:$f_control_motion) isa functional-requirement;
     (action:$a_return_base, required-function:$f_generate_home_path, required-function:$f_control_motion) isa functional-requirement;
     (action:$a_analyze, required-function:$f_pick_sample, required-function:$f_generate_pick_path, required-function:$f_control_motion) isa functional-requirement;
     (action:$a_analyze_in_situ, required-function:$f_analyze_sample_in_situ, required-function:$f_generate_analyze_path, required-function:$f_control_motion) isa functional-requirement;
     (action:$a_land_fold, required-function:$f_land, required-function:$f_fold_gripper, required-function:$f_control_motion) isa functional-requirement;
-    
+
     ## Components
     $c_control_motion_node isa Component, has component-name "control_motion_node";
     $c_generate_search_path_node isa Component, has component-name "generate_search_path_node";
     $c_generate_home_path_node isa Component, has component-name "generate_home_path_node";
-    
+
     $c_generate_pick_path_node isa Component, has component-name "generate_pick_path_node";
     $c_gripper isa Component, has component-name "gripper";
-    
+
     $c_generate_analyze_path_node isa Component, has component-name "generate_analyze_path_node";
     $c_infra_red_camera isa Component, has component-name "infr_red_camera";
-    
+
     $c_generate_land_path isa Component, has component-name "generate_land_path";
     $c_fold_gripper isa Component, has component-name "fold_gripper";
-    
+
     ## function designs
     (function: $f_control_motion, required-component: $c_control_motion_node) isa function-design, has function-design-name "fd_control_motion";
     (function: $f_generate_search_path, required-component: $c_generate_search_path_node) isa function-design, has function-design-name "fd_generate_search_path";
@@ -52,12 +52,10 @@ insert
     (function: $f_analyze_sample_in_situ, required-component: $c_infra_red_camera) isa function-design, has function-design-name "fd_analyze_sample_in_situ";
     (function: $f_land, required-component: $c_generate_land_path) isa function-design, has function-design-name "fd_land";
     (function: $f_fold_gripper, required-component: $c_fold_gripper, required-component: $c_gripper) isa function-design, has function-design-name "fd_fold";
- 
+
     ## Quality attributes
     $qa_battery_level isa QualityAttribute, has attribute-name "qa_battery_level";
-    
+
     ## Constraints
-    (constraint: $qa_battery_level, constrained: $a_search) isa constrainment, has attribute-value 0.25, has constrainment-operator ">=";
-    (constraint: $qa_battery_level, constrained: $a_analyze) isa constrainment, has attribute-value 0.5, has constrainment-operator ">=";
-    
-    
+    (constraint: $qa_battery_level, constrained: $a_search) isa constraint, has attribute-value 0.25, has constraint-operator ">=";
+    (constraint: $qa_battery_level, constrained: $a_analyze) isa constraint, has attribute-value 0.5, has constraint-operator ">=";

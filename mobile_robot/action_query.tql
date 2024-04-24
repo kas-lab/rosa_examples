@@ -4,14 +4,12 @@ match
     $fd (function:$f_localization) isa function-design, has function-design-name  $fd_name, has function-design-status $fd_status;
     not {$fd_status='unfesiable';};
     $ea_light isa EnvironmentalAttribute, has attribute-name "light";
-    {(constraint: $ea_light, constrained: $fd) isa constrainment, has attribute-value $light_constraint; $light_constraint<0.95;} or
-    {not {(constraint: $ea_light, constrained: $fd) isa constrainment;};};
+    {(constraint: $ea_light, constrained: $fd) isa constraint, has attribute-value $light_constraint; $light_constraint<0.95;} or
+    {not {(constraint: $ea_light, constrained: $fd) isa constraint;};};
     $qa_energy isa QualityAttribute, has attribute-name "energy";
     $qa_accuracy isa QualityAttribute, has attribute-name "accuracy";
     (causer: $fd, affected: $qa_energy) isa estimation, has estimation-value $energy_estimation;
-    (causer: $fd, affected: $qa_accuracy) isa estimation, has estimation-value $accuracy_estimation; 
-    $energy_estimation < 1.8; 
-    $accuracy_estimation > 1.0; 
-    get $fd_name; 
-
-    
+    (causer: $fd, affected: $qa_accuracy) isa estimation, has estimation-value $accuracy_estimation;
+    $energy_estimation < 1.8;
+    $accuracy_estimation > 1.0;
+    get $fd_name;
